@@ -6,4 +6,30 @@ html(lang='fr')
     link(rel='stylesheet', href='../public/css/default.css')
     link(rel='stylesheet', href='../public/css/style.css')
   body
-    block content
+  	header 
+  		.header-container
+  			.logo
+  				a(href='./index.html')
+  					img(alt='logo', src='../public/img/logo.csv')
+  			nav
+  				ul
+  					li 
+  						a(href='./index.html') Acceuil
+  					li 
+  						a(href='./products.html') Produits
+  					li 
+  						a(href='./contact.html') Contact
+  					li 
+  						a.shopping-cart(href='./shopping-cart.html' title="Panier")
+  							span.fa-stack.fa-lg
+  								i.fa.fa-circle.fa-stack-2x.fa-inverse
+  								i.fa.fa-shopping-cart.fa-stack-1x
+  							span.count count
+  	block main
+    footer
+    	p Par Antoine Béland et Konstantinos Lambrou-Latreille
+    	script(type='text/javascript', src='../public/js/jquery-3.2.1.min.js')
+    	script(type='text/javascript', src='../public/scripts/utils.js')
+    	script(type='text/javascript', src='../public/scripts/shopping-cart.service.js')
+    	script(type='text/javascript', src='../public/scripts/shopping-cart.controller.js')
+

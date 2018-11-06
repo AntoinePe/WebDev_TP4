@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  article
-    h1= message
+	article
+	img#home-img(alt='home', src='/assets/img/home.png')
+	h1= message
+	p= description
+	a.btn(href='/products')
+		|En savoir plus
+		i.fa.fa-angle-double-right

@@ -5,6 +5,7 @@ html(lang='fr')
     title= title
     link(rel='stylesheet', href='assets/css/default.css')
     link(rel='stylesheet', href='assets/css/style.css')
+    link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
   body
     header 
       .header-container
@@ -24,12 +25,12 @@ html(lang='fr')
                 span.fa-stack.fa-lg
                   i.fa.fa-circle.fa-stack-2x.fa-inverse
                   i.fa.fa-shopping-cart.fa-stack-1x
-                span.count count
+                span.count=count
   	
     block content
     
     footer
-      p Par Antoine Béland et Konstantinos Lambrou-Latreille
+      p Par Antoine Pelletier et Rémy Bigué
       script(type='text/javascript', src='assets/js/jquery-3.2.1.min.js')
       script(type='text/javascript', src='assets/scripts/utils.js')
       script(type='text/javascript', src='assets/scripts/products.service.js')

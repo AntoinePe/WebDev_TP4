@@ -13,13 +13,28 @@ html(lang='fr')
           a(href='/acceuil')
             img(alt='logo', src='assets/img/logo.svg')
         nav
-          ul
-            li 
-              a(href='/acceuil') Acceuil
-            li 
-              a(href='/produits') Produits
-            li 
-              a(href='/contact') Contact
+          ul 
+            if title=="Acceuil" 
+              li.active     
+                a(href='/acceuil') Acceuil
+            else
+              li
+                a(href='/acceuil') Acceuil 
+            
+            if title=="Produits"
+              li.active
+                a(href='/produits') Produits
+            else
+              li
+                a(href='/produits') Produits 
+            
+            if title=="Contact"
+              li.active
+                a(href='/contact') Contact
+            else
+              li
+                a(href='/contact') Contact
+            
             li 
               a.shopping-cart(href='/panier' title="Panier")
                 span.fa-stack.fa-lg

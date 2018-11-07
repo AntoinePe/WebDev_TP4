@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const nbItem=5;
-const menuActif="";
-const firstNameOrder=""
-const nameOrder=""
+var nbItem=5;
+var menuActif="";
+var firstNameOrder=""
+var nameOrder=""
 
 router.get("/", (req, res) => {
-	menuActif="Acceuil"
-	res.
+	menuActif="Acceuil";
   	res.render("index", { 
   							title: "Accueil", 
   							count: nbItem,
@@ -18,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/acceuil", (req,res) => {
-	menuActif="Acceuil"
+	menuActif="Acceuil";
 	res.render("index", { 
 							title:"Acceuil", 
 							count: nbItem,
@@ -31,6 +30,7 @@ router.get("/acceuil", (req,res) => {
 router.get("/confirmation", (req,res)=>{
 	menuActif=""
 	res.render('confirmation',{
+								title:"Confirmation",
 								confirmation:"Votre commande est confirmée "+firstNameOrder+" "+nameOrder+"!",
 								numeroConf: "Votre numéro de confirmation est le <strong>00001</strong>."
 	})
@@ -40,6 +40,7 @@ router.get("/confirmation", (req,res)=>{
 router.get("/contact", (req,res)=>{
 	menuActif="Contact"
 	res.render('contact',{
+							title:"Contact",
 							count:nbItem
 	})
 

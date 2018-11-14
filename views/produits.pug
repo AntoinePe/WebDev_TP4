@@ -1,0 +1,27 @@
+extends layout
+
+append footer
+  script(type="text/javascript", src ='/assets/scripts/products.controller.js')
+
+block content
+  main
+    section.sidebar(aria-label='Filtres')
+      section
+        h2 Catégories
+        #product-categories.btn-group.vertical
+          button Appareils photo
+          button Consoles
+          button Écrans
+          button Ordinateurs
+          button.selected Tous les produits
+      section
+        h2 Classement
+        #product-criteria.btn-group.vertical
+          button.selected Prix (bas-haut)
+          button Prix (haut-bas)
+          button Nom (A-Z)
+          button Nom (Z-A)
+    article
+      span#products-count.right-header nbProduits produits
+      h1 Produits
+      #products-list.products

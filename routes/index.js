@@ -1,34 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-var nbItem=5;
-var menuActif="";
+var nbItem=0;
 var firstNameOrder=""
 var nameOrder=""
 
 router.get("/", (req, res) => {
-	menuActif="Acceuil";
   	res.render("index", { 
   							title: "Accueil", 
   							count: nbItem,
   							message: "Le site n°1 pour les achats en ligne !",
-  							description: "Découvrez nos différents produits au meilleur prix.",
+  							description: "Découvrez nos différents produits au meilleur prix."
   						})
 });
 
 router.get("/acceuil", (req,res) => {
-	menuActif="Acceuil";
 	res.render("index", { 
 							title:"Acceuil", 
 							count: nbItem,
 							message: "Le site n°1 pour les achats en ligne !",
-							description: "Découvrez nos différents produits au meilleur prix.",
-							selected: "Acceuil"
+							description: "Découvrez nos différents produits au meilleur prix."
 						})
 });
 
 router.get("/confirmation", (req,res)=>{
-	menuActif=""
 	res.render('confirmation',{
 								title:"Confirmation",
 								confirmation:"Votre commande est confirmée "+firstNameOrder+" "+nameOrder+"!",
@@ -38,25 +33,26 @@ router.get("/confirmation", (req,res)=>{
 
 
 router.get("/contact", (req,res)=>{
-	menuActif="Contact"
 	res.render('contact',{
 							title:"Contact",
 							count:nbItem
 	})
 
 });
-/*
-router.get("/produits", (res,res)=>{
+
+
+router.get("/produits", (req,res)=>{
 	res.render("produits", {
-								title:
+								title:"Produits",
 	})
 });
+/*
 
-router.get("/produit/:id", (res,res)=>{});
+router.get("/produit/:id", (req,res)=>{});
 
-router.get("/panier", (res,res)=>{});
+router.get("/panier", (req,res)=>{});
 
-router.get("/commande", (res,res)=>{});
+router.get("/commande", (req,res)=>{});
 
 */
 

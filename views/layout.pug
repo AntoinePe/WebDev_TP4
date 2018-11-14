@@ -10,16 +10,16 @@ html(lang='fr')
     header 
       .header-container
         .logo
-          a(href='/acceuil')
+          a(href='/accueil')
             img(alt='logo', src='assets/img/logo.svg')
         nav
           ul 
-            if title=="Acceuil" 
+            if title=="Accueil" 
               li.active     
-                a(href='/acceuil') Acceuil
+                a(href='/accueil') Accueil
             else
               li
-                a(href='/acceuil') Acceuil 
+                a(href='/accueil') Accueil 
             
             if title=="Produits"
               li.active
@@ -45,11 +45,12 @@ html(lang='fr')
     block content
     
     footer
-      block footer
-        p Par Antoine Pelletier et Rémy Bigué
-        script(type='text/javascript', src='assets/js/jquery-3.2.1.min.js')
-        script(type='text/javascript', src='assets/scripts/utils.js')
-        script(type='text/javascript', src='assets/scripts/products.service.js')
-        script(type='text/javascript', src='assets/scripts/shopping-cart.service.js')
-        script(type='text/javascript', src='assets/scripts/shopping-cart.controller.js')
+      p Par Antoine Pelletier et Rémy Bigué
+    script(type='text/javascript', src='assets/js/jquery-3.2.1.min.js')
+    script(type='text/javascript', src='assets/scripts/utils.js')
+    script(type='text/javascript', src='assets/scripts/products.service.js')
+    script(type='text/javascript', src='assets/scripts/shopping-cart.service.js')
+    script(type='text/javascript', src='assets/scripts/shopping-cart.controller.js')
+    block scripts
+
 

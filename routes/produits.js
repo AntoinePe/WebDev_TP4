@@ -15,7 +15,7 @@ router.get("/api/products", (req, res) => {
 	if (criteria != "alpha-asc" && criteria != "alpha-dsc" && criteria != "price-asc" && criteria != "price-dsc" && typeof(criteria) != undefined)
 		res.sendStatus(400);
 
-	Produits.find({category : category}, function(err, product) {
+	Product.find({category : category}, function(err, product) {
   if (err) throw err;
   else {
   	produits.push(product);
@@ -114,13 +114,13 @@ router.delete("api/products/:id", (req, res) => {
 
 			if (typeof(order) == undefined) {
 
-				res.sensStatus(404);
+				res.sendStatus(404);
 			}
 
 		product.remove(function(err) {}) ;
 
 	});
-	res.sensStatus(204);
+	res.sendStatus(204);
 
 
 });
@@ -132,7 +132,7 @@ router.delete("api/products", (req, res) => {
 		product.remove(function(err) {}) ;
 
 	});
-	res.sensStatus(204);
+	res.sendStatus(204);
 
 });
 

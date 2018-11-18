@@ -94,13 +94,13 @@ router.delete("/api/order/:id", (req, res) => {
 
 			if (typeof(order) == undefined) {
 
-				res.sensStatus(404);
+				res.sendStatus(404);
 			}
 
 		order.remove(function(err) {}) ;
 
 	});
-	res.sensStatus(204);
+	res.sendStatus(204);
 
 
 

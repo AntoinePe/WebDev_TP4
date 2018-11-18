@@ -41,7 +41,7 @@ app.use(session({
 
 //Bind the API to our app
 app.use("/", index);
-app.use("/api/products/*", produits);
+app.use("/", produits);
 app.use("/", orders);
 app.use("/", panier);
 

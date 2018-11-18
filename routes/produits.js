@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 
 router.get("/api/products", (req, res) => {
-	var Product = mongoose.model("Product")
+	var Product = mongoose.model("Product");
 	var trierEnvoyer = function(err, productList){
 		if(err){
 			console.log(err);
@@ -24,7 +24,7 @@ router.get("/api/products", (req, res) => {
 				critere = (a,b) => a["price"] - b["price"];
 				break;
 			case "price-dsc":
-				critere = (a,b) => a["price"] - b["price"];
+				critere = (a,b) => b["price"] - a["price"];
 				break;
 			default:
 				critere = (a,b) => b["name"].localeCompare(a["name"]);
@@ -48,10 +48,10 @@ router.get("/api/products", (req, res) => {
 			res.sendStatus(400);
 			return;
 	}
-
 });
 
 router.get("/api/products/:id", (req, res) => {
+	/*
 
 	let trouve = false;
 	let produit;
@@ -71,7 +71,24 @@ router.get("/api/products/:id", (req, res) => {
 	else {
 
 		res.sendStatus(404);
+	}*/
+	console.log("Recuperation du produit".str(req.params.id))
+	var Product=mongoose.model("Product");
+	var exist = function(err,produit){
+		if(err){
+			console.log(err);
+			res.send(err);
+			return;
+		}
+		console.log(produit);
+		if(produit){
+			res.send(produit);
+		}
+		else{
+			res.sendStatus(404);
+		}
 	}
+	Product.findOne({"id" : req.params.id}, '-_id', exist);
 
 });
 

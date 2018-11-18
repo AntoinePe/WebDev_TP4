@@ -81,8 +81,12 @@ router.get("/commande", (req,res)=>{
 
 	});
 });
-/*router.get("/produit/:id", (req,res)=>{});
 
-*/
+router.get("/produits/:id", (req,res)=>{
+	menuActif="Produits"
+	res.render("product",{
+							title:"Produit"
+	})
+});
 
 module.exports = router;

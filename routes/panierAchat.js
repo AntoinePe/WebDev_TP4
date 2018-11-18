@@ -4,19 +4,19 @@ const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 router.get("/api/shopping-cart", (req, res) => {
 	let panier = req.session.shopping-cart;
-	if (panier == undefined) {
+	if (typeof(panier) == undefined) {
 		panier = [];	
 	}
 	res.status(200).send(panier);
 
-	})
+	});
 
 router.get("/api/shopping-cart/:productId", (req, res) => {
 
 let panier = req.session.shopping-cart;
 let produitDemande;
 let trouve = false;
-if (panier == undefined) {
+if (typeof(panier) == undefined) {
 
 	res.sendStatus(404) ;
 }
@@ -35,17 +35,17 @@ if (trouve) {
 else {
 	res.sendStatus(404) ;
 }
-})
+});
 
 router.post("/api/shopping-cart", (req, res) => {
 	let panier = req.session.shopping-cart;
 	let quantite = req.body.quantite;
 	let productId = req.body.productId
-	if (panier == undefined) {
+	if (typeof(panier) == undefined) {
 		panier = []
 	}
 	Product.find({id : req.body.productId}, function (err, produit){
-		if (err || produit == undefined || quantite < 1) {
+		if (err || typeof(produit) == undefined || quantite < 1) {
 			res.sendStatus(400);
 		}
 		else {
@@ -57,14 +57,14 @@ router.post("/api/shopping-cart", (req, res) => {
 
 				}
 
-			})
-			panier.push({"productId" : productId, "quantite" : quantite});
+			});
+			panier.push({productId : productId, quantite : quantite});
 			req.session.shopping-cart = panier;
 			res.status(201);
 		}
 		
 
-	})
+	});
 
 	router.put("/api/shopping-cart/:id", (req, res) => {
 
@@ -85,7 +85,7 @@ router.post("/api/shopping-cart", (req, res) => {
 				produit.quantite = quantite;
 			}
 
-	})
+	});
 			if (trouve) {
 				req.session.shopping-cart = panier;	
 				res.sendStatus(204);
@@ -93,7 +93,7 @@ router.post("/api/shopping-cart", (req, res) => {
 			else {
 				res.sendStatus(404);
 			}
-})
+});
 
 	router.delete("/api/shopping-cart", (req, res) => {
 
@@ -115,7 +115,7 @@ router.post("/api/shopping-cart", (req, res) => {
 	else {
 		res.sendStatus(404);
 	}
-	})
+	});
 
 
 
@@ -124,4 +124,4 @@ router.delete("/api/shopping-cart", (req, res) => {
 req.session.shopping-cart = [];
 res.sendStatus(204);
 
-})
+});

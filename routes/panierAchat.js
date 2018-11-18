@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
+
 router.get("/api/shopping-cart", (req, res) => {
 	let panier = req.session.shopping-cart;
 	if (typeof(panier) == undefined) {

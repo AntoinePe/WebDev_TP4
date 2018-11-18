@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const propucts= require('produits');
-const panier=require('panierAchats');
-const commande=requier('commande');
+const products= require('./produits');
+const panier=require('./panierAchat');
+const commande=requier('./commande');
 
 router.use('/api/products/*',products);
 router.use('/api/shopping-cart/*',panier);

@@ -6,25 +6,14 @@ const mongoose = require("mongoose");
 
 router.get("/api/products", (req, res) => {
 	var Product = mongoose.model("Product")
-	let produits = [] ;
-	let category = req.query.category;
-	let criteria = req.query.criteria;
-
-	if (category != "cameras" && category != "computers" && category != "consoles" && category != "screens")
-		res.sendStatus(400);
-	if (criteria != "alpha-asc" && criteria != "alpha-dsc" && criteria != "price-asc" && criteria != "price-dsc" && typeof(criteria) != undefined)
-		res.sendStatus(400);
-
-	Product.find({category : category}, function(err, product) {
-  if (err) throw err;
-  else {
-  	produits.push(product);
-  }
-});
-	let critere;
-		switch (criteria){
-
-
+	var trierEnvoyer = function(err, productList){
+		if(err){
+			console.log(err);
+			res.send(err);
+			return;
+		}
+		let critere;
+		switch (req.query.criteria){
 			case "alpha-asc":
 				critere = (a,b) => a["name"].localeCompare(b["name"]);
 				break;
@@ -40,9 +29,25 @@ router.get("/api/products", (req, res) => {
 			default:
 				critere = (a,b) => b["name"].localeCompare(a["name"]);
 		}
+		productList.sort(critere);
+		res.send(productList);
+		res.status(200);
+	}
 
-		produits.sort(critere);
-		res.status(200).send(produits);
+	switch (req.query.category){
+		case "cameras" :
+		case "computers" :
+		case "consoles" :
+		case "screens" :
+			Product.find({"category" : req.query.category}, '-_id', trierEnvoyer);
+			break;
+		case undefined:
+			Product.find({}, '-_id', trierEnvoyer);
+			break;		
+		default:
+			res.sendStatus(400);
+			return;
+	}
 
 });
 
@@ -81,41 +86,35 @@ router.post("api/products", (req, res) => {
 		if (feature == "")
 			res.sendStatus(400);
 	})
-Product.find({id : req.body.id}, function(err, product) {
-	if (typeof(product) != undefined)
-		res.sendStatus(400);
-});
+	Product.find({id : req.body.id}, function(err, product) {
+		if (typeof(product) != undefined)
+			res.sendStatus(400);
+	});
 
-let produit = Product({
-	id: req.body.id,
-  name: req.body.name,
-  price: req.body.price,
-  image: req.body.image,
-  category: req.body.category,
-  description: req.body.description,
-  features: req.body.features
-});
-produit.save(function(err) {
-	if (err)
-		throw err;
-	res.sendStatus(201);
-});
-
-
-
-
-
-
+	let produit = Product({
+		id: req.body.id,
+		name: req.body.name,
+		price: req.body.price,
+		image: req.body.image,
+		category: req.body.category,
+		description: req.body.description,
+		features: req.body.features
+	});
+	produit.save(function(err) {
+		if (err)
+			throw err;
+		res.sendStatus(201);
+	});
 });
 
 router.delete("api/products/:id", (req, res) => {
 
-			Product.find({id : id}, function(err, product) {
+	Product.find({id : id}, function(err, product) {
 
-			if (typeof(order) == undefined) {
+		if (typeof(order) == undefined) {
 
-				res.sendStatus(404);
-			}
+			res.sendStatus(404);
+		}
 
 		product.remove(function(err) {}) ;
 

@@ -83,10 +83,6 @@ router.get("/commande", (req,res)=>{
 });
 /*router.get("/produit/:id", (req,res)=>{});
 
-
-
-
-
 */
 
 module.exports = router;

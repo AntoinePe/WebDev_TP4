@@ -7,7 +7,12 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 
 require("./lib/db");
+
 const index = require("./routes/index");
+const produits = require("./routes/produits");
+const orders = require("./routes/commande");
+const panier = require("./routes/panierAchat");
+
 
 const app = express();
 
@@ -34,7 +39,11 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+//Bind the API to our app
 app.use("/", index);
+app.use("/api/products/*", produits);
+app.use("/", orders);
+app.use("/", panier);
 
 // catch 404 and forward to error handler
 app.use((req, res, next)=> {

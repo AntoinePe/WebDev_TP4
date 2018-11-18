@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 
 router.get("/api/shopping-cart", (req, res) => {
-	let panier = req.session.shopping-cart;
+	let panier = req.session.shopping_cart;
 	if (typeof(panier) == undefined) {
 		panier = [];	
 	}
@@ -14,32 +14,32 @@ router.get("/api/shopping-cart", (req, res) => {
 
 router.get("/api/shopping-cart/:productId", (req, res) => {
 
-let panier = req.session.shopping-cart;
-let produitDemande;
-let trouve = false;
-if (typeof(panier) == undefined) {
+	let panier = req.session.shopping_cart;
+	let produitDemande;
+	let trouve = false;
+	if (typeof(panier) == undefined) {
 
-	res.sendStatus(404) ;
-}
-panier.forEach(function(produit) {
+		res.sendStatus(404) ;	
+	}
+	panier.forEach(function(produit) {
 
-	if (produit.id == productId) {
-		produitDemande = produit ;
-		trouve = true;
+		if (produit.id == productId) {
+			produitDemande = produit ;
+			trouve = true;
 
 	}
-})
-if (trouve) {
+	})
+	if (trouve) {
 
-	res.status(200).send(produitDemande);
-}
-else {
-	res.sendStatus(404) ;
-}
+		res.status(200).send(produitDemande);
+	}
+	else {
+		res.sendStatus(404) ;
+	}
 });
 
 router.post("/api/shopping-cart", (req, res) => {
-	let panier = req.session.shopping-cart;
+	let panier = req.session.shopping_cart;
 	let quantite = req.body.quantite;
 	let productId = req.body.productId
 	if (typeof(panier) == undefined) {
@@ -60,16 +60,17 @@ router.post("/api/shopping-cart", (req, res) => {
 
 			});
 			panier.push({productId : productId, quantite : quantite});
-			req.session.shopping-cart = panier;
+			req.session.shopping_cart = panier;
 			res.status(201);
 		}
 		
 
 	});
+});
 
 	router.put("/api/shopping-cart/:id", (req, res) => {
 
-		let panier = req.session.shopping-cart;
+		let panier = req.session.shopping_cart;
 		let quantite = res.body.quantite;
 		let trouve = false;
 
@@ -88,7 +89,7 @@ router.post("/api/shopping-cart", (req, res) => {
 
 	});
 			if (trouve) {
-				req.session.shopping-cart = panier;	
+				req.session.shopping_cart = panier;	
 				res.sendStatus(204);
 			}
 			else {
@@ -98,10 +99,10 @@ router.post("/api/shopping-cart", (req, res) => {
 
 	router.delete("/api/shopping-cart", (req, res) => {
 
-		let panier = req.session.shopping-cart;
+		let panier = req.session.shopping_cart;
 		let trouve = false;
 		let indice;
-		for (int i = 0; i < panier.length; i++){
+		for (let i = 0; i < panier.length; i++){
 
 			if (panier[i].productId == id){
 				trouve = true;
@@ -119,10 +120,8 @@ router.post("/api/shopping-cart", (req, res) => {
 	});
 
 
-
-
 router.delete("/api/shopping-cart", (req, res) => {
-req.session.shopping-cart = [];
-res.sendStatus(204);
+	req.session.shopping_cart = [];
+	res.sendStatus(204);
 
 });

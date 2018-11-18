@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const products= require('./produits');
+/*const products= require('./produits');
 const panier=require('./panierAchat');
-const commande=requier('./commande');
+const commande=require('./commande');
 
 router.use('/api/products/*',products);
 router.use('/api/shopping-cart/*',panier);
 router.use('/api/orders/*',commande)
-
+*/
 
 var nbItem=5;
 var menuActif="";

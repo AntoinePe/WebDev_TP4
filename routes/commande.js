@@ -114,9 +114,7 @@ router.delete("/api/order", (req, res) => {
 		order.remove(function(err) {}) ;
 
 	});
-	res.sensStatus(204);
-
-
-
-	
+	res.sensStatus(204);	
 });
+
+module.exports = router;

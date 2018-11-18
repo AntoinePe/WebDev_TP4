@@ -125,3 +125,5 @@ router.delete("/api/shopping-cart", (req, res) => {
 	res.sendStatus(204);
 
 });
+
+module.exports = router;

@@ -136,4 +136,4 @@ router.delete("api/products", (req, res) => {
 
 });
 
-
+module.exports=router;

@@ -3,15 +3,15 @@ html(lang='fr')
   head
     meta(charset='UTF-8')
     title= title
-    link(rel='stylesheet', type='text/css' href='assets/css/default.css')
-    link(rel='stylesheet', type='text/css' href='assets/css/style.css')
+    link(rel='stylesheet', href='/assets/css/default.css')
+    link(rel='stylesheet', href='/assets/css/style.css')
     link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
   body
     header 
       .header-container
         .logo
           a(href='/accueil')
-            img(alt='logo', src='assets/img/logo.svg')
+            img(alt='logo', src='/assets/img/logo.svg')
         nav
           ul 
             if title=="Accueil" 
@@ -46,11 +46,11 @@ html(lang='fr')
     
     footer
       p Par Antoine Pelletier et Rémy Bigué
-    script(type='text/javascript', src='assets/js/jquery-3.2.1.min.js')
-    script(type='text/javascript', src='assets/scripts/utils.js')
-    script(type='text/javascript', src='assets/scripts/products.service.js')
-    script(type='text/javascript', src='assets/scripts/shopping-cart.service.js')
-    script(type='text/javascript', src='assets/scripts/shopping-cart.controller.js')
+    script(type='text/javascript', src='/assets/js/jquery-3.2.1.min.js')
+    script(type='text/javascript', src='/assets/scripts/utils.js')
+    script(type='text/javascript', src='/assets/scripts/products.service.js')
+    script(type='text/javascript', src='/assets/scripts/shopping-cart.service.js')
+    script(type='text/javascript', src='/assets/scripts/shopping-cart.controller.js')
     block scripts
 
 

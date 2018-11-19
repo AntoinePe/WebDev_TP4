@@ -7,6 +7,7 @@ var menuActif="";
 var firstNameOrder=""
 var nameOrder=""
 var listProduits
+var produit
 
 var getProduits = (criteria,categorie,res) =>{
 	console.log("Recuperation de la liste des produits")
@@ -58,6 +59,33 @@ var getProduits = (criteria,categorie,res) =>{
 		default:
 			return;
 	}
+}
+
+var getProduit = (id, res) => {
+
+	console.log("Recuperation d'un produit");
+	var Envoyer = (err, product) => {
+		
+
+		console.log(product);
+
+		produit = product;
+		res.render("product", {
+
+			title : "Produit",
+			data : produit
+
+		});
+		return;
+		Product.find({"id" : id}, '-_id', Envoyer);
+
+	}
+
+
+
+
+
+
 }
 
 router.get("/", (req, res) => {
@@ -125,10 +153,8 @@ router.get("/commande", (req,res)=>{
 });
 
 router.get("/produits/:id", (req,res)=>{
-	menuActif="Produits"
-	res.render("product", {
-							title:"Produits"
-	});
+	getProduit(req.param.id, res);
+	
 });
 
 module.exports = router;

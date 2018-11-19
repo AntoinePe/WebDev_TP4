@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 
 var menuActif="";
@@ -44,9 +45,57 @@ router.get("/contact", (req,res)=>{
 
 router.get("/produits", (req,res)=>{
 	menuActif="Produits"
+	prod = ""
+	var Product = mongoose.model("Product");
+	var trierEnvoyer = function(err, productList){
+		if(err){
+			console.log(err);
+			//res.send(err);
+			//return;
+		}
+		let critere;
+		switch (req.query.criteria){
+			case "alpha-asc":
+				critere = (a,b) => a["name"].localeCompare(b["name"]);
+				break;
+			case "alpha-dsc":
+				critere = (a,b) => b["name"].localeCompare(a["name"]);
+				break;
+			case "price-asc":
+				critere = (a,b) => a["price"] - b["price"];
+				break;
+			case "price-dsc":
+				critere = (a,b) => b["price"] - a["price"];
+				break;
+			default:
+				critere = (a,b) => b["name"].localeCompare(a["name"]);
+		}
+		productList.sort(critere);
+		prod = JSON.stringify(productList,null,2);
+		//console.log(prod)
+		//res.send(productList);
+		//res.status(200);
+	}
+
+	switch (req.query.category){
+		case "cameras" :
+		case "computers" :
+		case "consoles" :
+		case "screens" :
+			Product.find({"category" : req.query.category}, '-_id', trierEnvoyer);
+			break;
+		case undefined:
+			Product.find({}, '-_id', trierEnvoyer);
+			break;		
+		default:
+			//res.sendStatus(400);
+			return;
+	}
+
 	res.render("produits", {
 							title: "Produits",
-							titre: "Produits"
+							titre: "Produits",
+							data:prod
 	});
 
 });

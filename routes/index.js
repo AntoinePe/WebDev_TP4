@@ -64,6 +64,7 @@ var getProduits = (criteria,categorie,res) =>{
 var getProduit = (id, res) => {
 
 	console.log("Recuperation d'un produit");
+	var Product=mongoose.model("Product");
 	var Envoyer = (err, product) => {
 		
 

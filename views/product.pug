@@ -2,17 +2,19 @@ extends layout
 
 block content
     article
-      h1#product-name Produit
+      h1#product-name = data.name
       .row
         .col
           img#product-image(alt='product', src='#')
         .col
           section
             h2 Description
-            p#product-desc
+            p#product-desc = data.description
           section
             h2 Caractéristiques
             ul#product-features
+              each feature in data.features
+                li feature 
           hr
           form#add-to-cart-form.pull-right
             label(for='product-quantity') Quantité:
@@ -22,8 +24,7 @@ block content
               |   Ajouter
           p
             | Prix: 
-            strong#product-price
+            strong#product-price = data.price
       #dialog.dialog
         | Le produit a été ajouté au panier.
-block scripts
-  script(type='text/javascript', src='/assets/scripts/product.controller.js')
+

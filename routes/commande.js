@@ -5,15 +5,16 @@ const Order = mongoose.model("Order");
 
 router.get("/api/order", (req, res) => {
 
-	let orders = [] ;
-	Order.find({}, function(err, order) {
-		if (!err) {
-		orders.append(order);
+		var Envoyer = function(err, productList){
+		if(err){
+			console.log(err);
+			res.send(err);
+			return;
+		}
+		res.send(productList);
+		res.status(200);
 	}
-	});
-
-	res.status(200).send(orders);
-
+	Order.find({}, '-_id', Envoyer);
 
 });
 

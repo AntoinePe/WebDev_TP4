@@ -5,13 +5,13 @@ const Order = mongoose.model("Order");
 
 router.get("/api/order", (req, res) => {
 
-		var Envoyer = function(err, productList){
+		var Envoyer = function(err, orderList){
 		if(err){
 			console.log(err);
 			res.send(err);
 			return;
 		}
-		res.send(productList);
+		res.send(orderList);
 		res.status(200);
 	}
 	Order.find({}, '-_id', Envoyer);
@@ -20,28 +20,25 @@ router.get("/api/order", (req, res) => {
 
 router.get("/api/order/:id", (req, res) => {
 
-	let trouve = false;
-	let commandeDemandee;
-	Order.find({id : id}, function(err, order){
-
-		if (!(typeof(order) == undefined)){
-			trouve = true;
-			commandeDemandee = order;
+	var EnvoyerOrder = function(err, order) {
+		if(err){
+			console.log(err);
+			res.send(err);
+			return;
 		}
-
-	});
-
-	if (trouve) {
-
-		res.status(200).send(commandeDemandee);
-	}
-	else {
-
-		res.sendStatus(404);
+	  if ((typeof(order) == undefined)){
+			res.status(404);
+			return;
+		}
+		res.status(200).send(order);
 	}
 
 	
-});
+	Order.find({id : id}, '-_id', EnvoyerOrder);
+
+	});
+
+
 
 router.post("/api/order", (req, res) => {
 
@@ -115,7 +112,7 @@ router.delete("/api/order", (req, res) => {
 		order.remove(function(err) {}) ;
 
 	});
-	res.sensStatus(204);	
+	res.sendStatus(204);	
 });
 
 module.exports = router;

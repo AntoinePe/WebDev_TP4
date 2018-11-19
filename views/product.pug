@@ -2,19 +2,20 @@ extends layout
 
 block content
     article
-      h1#product-name = data.name
+      h1#product-name= data.name
       .row
         .col
-          img#product-image(alt='product', src='#')
+          img#product-image(alt='product', src="/assets/img/"+data.image)
         .col
           section
             h2 Description
-            p#product-desc = data.description
+            - var description= data.description
+            p#product-desc !{description}
           section
             h2 Caractéristiques
             ul#product-features
               each feature in data.features
-                li feature 
+                li !{feature} 
           hr
           form#add-to-cart-form.pull-right
             label(for='product-quantity') Quantité:
@@ -24,7 +25,7 @@ block content
               |   Ajouter
           p
             | Prix: 
-            strong#product-price = data.price
+            strong#product-price= data.price
       #dialog.dialog
         | Le produit a été ajouté au panier.
 

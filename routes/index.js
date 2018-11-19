@@ -37,7 +37,6 @@ var getProduits = (criteria,categorie,res) =>{
 		}
 		productList.sort(critere);
 		listProduits=productList;
-		console.log(listProduits);
 		res.render("produits", {
 			title: "Produits",
 			titre: "Produits",
@@ -64,29 +63,24 @@ var getProduits = (criteria,categorie,res) =>{
 var getProduit = (id, res) => {
 
 	console.log("Recuperation d'un produit");
+	console.log(id);
 	var Product=mongoose.model("Product");
 	var Envoyer = (err, product) => {
-		
+		if(err){
+			console.log(err)
+		}
+		else{		
+			console.log(product);
+			res.render("product", {
 
-		console.log(product);
+				title : "Produit",
+				data : product
 
-		produit = product;
-		res.render("product", {
-
-			title : "Produit",
-			data : produit
-
-		});
-		return;
-		Product.find({"id" : id}, '-_id', Envoyer);
-
+			});
+			return;
+		}
 	}
-
-
-
-
-
-
+	Product.findOne({"id" : id}, '-_id', Envoyer);
 }
 
 router.get("/", (req, res) => {
@@ -127,7 +121,6 @@ router.get("/contact", (req,res)=>{
 
 router.get("/produits", (req,res)=>{
 	getProduits("price-asc",undefined,res);
-	console.log(listProduits);
 	/*
 	res.render("produits", {
 			title: "Produits",
@@ -154,8 +147,7 @@ router.get("/commande", (req,res)=>{
 });
 
 router.get("/produits/:id", (req,res)=>{
-	getProduit(req.param.id, res);
-	
+	getProduit(req.params.id, res);	
 });
 
 module.exports = router;

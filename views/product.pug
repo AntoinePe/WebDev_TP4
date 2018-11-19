@@ -19,7 +19,7 @@ block content
           hr
           form#add-to-cart-form.pull-right
             label(for='product-quantity') Quantité:
-            input#product-quantity.form-control(type='number', value='1', min='1')
+            input#product-quantity.form-control(type='number', value='1', min='1',#productId(data.id))
             button.btn(title='Ajouter au panier', type='submit')
               i.fa.fa-cart-plus
               |   Ajouter

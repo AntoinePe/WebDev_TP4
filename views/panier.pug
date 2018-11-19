@@ -13,6 +13,22 @@ block content
             th Quantité
             th Prix
         tbody
+          if !panier==undefined
+            each produit in panier
+              button(title='Supprimer')
+                i.fa.fa-times
+              a(href='./product.html'+produit.productId) produit.name
+                | produit.price
+              .row
+                .col
+                    button(title='Retirer', disabled='')
+                    i.fa.fa-minus
+                .col 1
+                .col
+                  button(title='Ajouter')
+                   i.fa.fa-plus
+                   | produit.productPrice*produit.quantity
+
       p.shopping-cart-total
         | Total: 
         strong#total-amount

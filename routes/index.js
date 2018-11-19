@@ -33,7 +33,7 @@ var getProduits = (criteria,categorie,res) =>{
 				critere = (a,b) => b["price"] - a["price"];
 				break;
 			default:
-				critere = (a,b) => b["name"].localeCompare(a["name"]);
+				res.status(400)
 		}
 		productList.sort(critere);
 		listProduits=productList;
@@ -63,14 +63,13 @@ var getProduits = (criteria,categorie,res) =>{
 var getProduit = (id, res) => {
 
 	console.log("Recuperation d'un produit");
-	console.log(id);
 	var Product=mongoose.model("Product");
 	var Envoyer = (err, product) => {
 		if(err){
-			console.log(err)
+			console.log(err);
+			res.sendStatus(404);
 		}
 		else{		
-			console.log(product);
 			res.render("product", {
 
 				title : "Produit",
@@ -131,9 +130,11 @@ router.get("/produits", (req,res)=>{
 
 router.get("/panier", (req,res)=>{
 	menuActif="Panier"
+	let cart = req.session.shopping_cart; 
 	res.render("panier", {
 		title: "Panier",
-		titre: "Panier"
+		titre: "Panier",
+		panier: cart
 	});
 });
 

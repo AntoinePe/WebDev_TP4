@@ -6,7 +6,7 @@ const Product = mongoose.model("Product");
 router.get("/api/shopping-cart", (req, res) => {
 	let panier = req.session.shopping_cart;
 	if (typeof(panier) == undefined) {
-		panier = [];	
+		req.session.shopping_cart = [];	
 	}
 	res.status(200).send(panier);
 
@@ -18,7 +18,6 @@ router.get("/api/shopping-cart/:productId", (req, res) => {
 	let produitDemande;
 	let trouve = false;
 	if (typeof(panier) == undefined) {
-
 		res.sendStatus(404) ;	
 	}
 	panier.forEach(function(produit) {
@@ -26,11 +25,9 @@ router.get("/api/shopping-cart/:productId", (req, res) => {
 		if (produit.id == productId) {
 			produitDemande = produit ;
 			trouve = true;
-
-	}
-	})
+		}
+	});
 	if (trouve) {
-
 		res.status(200).send(produitDemande);
 	}
 	else {
@@ -45,71 +42,63 @@ router.post("/api/shopping-cart", (req, res) => {
 	if (typeof(panier) == undefined) {
 		panier = []
 	}
-	Product.find({id : req.body.productId}, function (err, produit){
+	Product.findOne({"id" : req.body.productId}, function (err, produit){
 		if (err || typeof(produit) == undefined || quantite < 1) {
 			res.sendStatus(400);
 		}
 		else {
-			
 			panier.forEach(function(prod){
 				if (prod.productId == productId) {
-
 					res.sendStatus(400);
-
 				}
-
 			});
-			panier.push({productId : productId, quantite : quantite});
+			panier.push({"productId" : productId, "quantity" : quantite});
 			req.session.shopping_cart = panier;
 			res.status(201);
 		}
-		
-
 	});
 });
 
-	router.put("/api/shopping-cart/:id", (req, res) => {
+router.put("/api/shopping-cart/:id", (req, res) => {
 
-		let panier = req.session.shopping_cart;
-		let quantite = res.body.quantite;
-		let trouve = false;
+	let panier = req.session.shopping_cart;
+	let quantite = res.body.quantite;
+	let trouve = false;
 
-		if (panier == undefined) {
-
-			res.sendStatus(404);
+	if (panier == undefined) {
+		res.sendStatus(404);
+	}
+	if(quantite < 1){
+		res.sendStatus(400);
+	}
+	panier.forEach(function(produit) {
+		if (produit.productId == id){
+			trouve = true;
+			produit.quantite = quantite;
 		}
-		if(quantite < 1){
-			res.sendStatus(400);
-		}
-		panier.forEach(function(produit) {
-			if (produit.productId == id){
-				trouve = true;
-				produit.quantite = quantite;
-			}
-
 	});
-			if (trouve) {
-				req.session.shopping_cart = panier;	
-				res.sendStatus(204);
-			}
-			else {
-				res.sendStatus(404);
-			}
+	if (trouve) {
+		req.session.shopping_cart = panier;	
+		res.sendStatus(204);
+	}
+	else {
+		res.sendStatus(404);
+	}
 });
 
-	router.delete("/api/shopping-cart", (req, res) => {
+router.delete("/api/shopping-cart", (req, res) => {
 
-		let panier = req.session.shopping_cart;
-		let trouve = false;
-		let indice;
-		for (let i = 0; i < panier.length; i++){
+	let panier = req.session.shopping_cart;
+	let trouve = false;
+	let indice;
+	for (let i = 0; i < panier.length; i++){
 
-			if (panier[i].productId == id){
-				trouve = true;
-				indice = i;
-			}
-
+		if (panier[i].productId == id){
+			trouve = true;
+			indice = i;
 		}
+
+	}
 	if (trouve) {
 		panier.splice(indice, 1);
 		res.sendStatus(204);
@@ -117,7 +106,7 @@ router.post("/api/shopping-cart", (req, res) => {
 	else {
 		res.sendStatus(404);
 	}
-	});
+});
 
 
 router.delete("/api/shopping-cart", (req, res) => {

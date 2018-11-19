@@ -6,6 +6,59 @@ const mongoose = require("mongoose");
 var menuActif="";
 var firstNameOrder=""
 var nameOrder=""
+var listProduits
+
+var getProduits = (criteria,categorie,res) =>{
+	console.log("Recuperation de la liste des produits")
+	var Product=mongoose.model("Product");
+
+	var trierEnvoyer = function(err, productList){
+		if(err){
+			console.log(err);
+			return;
+		}
+		let critere;
+		switch (criteria){
+			case "alpha-asc":
+				critere = (a,b) => a["name"].localeCompare(b["name"]);
+				break;
+			case "alpha-dsc":
+				critere = (a,b) => b["name"].localeCompare(a["name"]);
+				break;
+			case "price-asc":
+				critere = (a,b) => a["price"] - b["price"];
+				break;
+			case "price-dsc":
+				critere = (a,b) => b["price"] - a["price"];
+				break;
+			default:
+				critere = (a,b) => b["name"].localeCompare(a["name"]);
+		}
+		productList.sort(critere);
+		listProduits=productList;
+		console.log(listProduits);
+		res.render("produits", {
+			title: "Produits",
+			titre: "Produits",
+			data: listProduits
+		});
+		return;
+	}
+
+	switch (categorie){
+		case "cameras" :
+		case "computers" :
+		case "consoles" :
+		case "screens" :
+			Product.find({"category" : categorie}, '-_id', trierEnvoyer);
+			break;
+		case undefined:
+			Product.find({}, '-_id', trierEnvoyer);
+			break;		
+		default:
+			return;
+	}
+}
 
 router.get("/", (req, res) => {
 	menuActif="Accueil";
@@ -44,60 +97,14 @@ router.get("/contact", (req,res)=>{
 });
 
 router.get("/produits", (req,res)=>{
-	menuActif="Produits"
-	prod = ""
-	var Product = mongoose.model("Product");
-	var trierEnvoyer = function(err, productList){
-		if(err){
-			console.log(err);
-			//res.send(err);
-			//return;
-		}
-		let critere;
-		switch (req.query.criteria){
-			case "alpha-asc":
-				critere = (a,b) => a["name"].localeCompare(b["name"]);
-				break;
-			case "alpha-dsc":
-				critere = (a,b) => b["name"].localeCompare(a["name"]);
-				break;
-			case "price-asc":
-				critere = (a,b) => a["price"] - b["price"];
-				break;
-			case "price-dsc":
-				critere = (a,b) => b["price"] - a["price"];
-				break;
-			default:
-				critere = (a,b) => b["name"].localeCompare(a["name"]);
-		}
-		productList.sort(critere);
-		prod = JSON.stringify(productList,null,2);
-		//console.log(prod)
-		//res.send(productList);
-		//res.status(200);
-	}
-
-	switch (req.query.category){
-		case "cameras" :
-		case "computers" :
-		case "consoles" :
-		case "screens" :
-			Product.find({"category" : req.query.category}, '-_id', trierEnvoyer);
-			break;
-		case undefined:
-			Product.find({}, '-_id', trierEnvoyer);
-			break;		
-		default:
-			//res.sendStatus(400);
-			return;
-	}
-
+	getProduits("price-asc",undefined,res);
+	console.log(listProduits);
+	/*
 	res.render("produits", {
-							title: "Produits",
-							titre: "Produits",
-							data:prod
-	});
-
+			title: "Produits",
+			titre: "Produits",
+			data: listProduits
+		});*/
 });
 
 router.get("/panier", (req,res)=>{

@@ -51,6 +51,27 @@ router.get("/api/products", (req, res) => {
 });
 
 router.get("/api/products/:id", (req, res) => {
+	/*
+
+	let trouve = false;
+	let produit;
+	Product.find({id : id}, function(err, product) {
+		if (typeof(product) != undefined) {
+			trouve = true;
+			produit = product;
+
+		}
+	});
+
+	if (trouve) {
+
+		res.status(200).send(produit);
+
+	}
+	else {
+
+		res.sendStatus(404);
+	}*/
 	console.log("Recuperation du produit".str(req.params.id))
 	var Product=mongoose.model("Product");
 	var exist = function(err,produit){

@@ -9,11 +9,11 @@ block content
         button(data-category='consoles') Consoles
         button(data-category='screens') Écrans
         button(data-category='computers') Ordinateurs
-        button(data-category='all') Tous les produits
+        button(data-category='all' class='selected') Tous les produits
     section
       h2 Classement
       #product-criteria.btn-group.vertical
-        button(data-criteria='price-asc') Prix (bas-haut)
+        button(data-criteria='price-asc' class='selected') Prix (bas-haut)
         button(data-criteria='price-dsc') Prix (haut-bas)
         button(data-criteria='alpha-asc') Nom (A-Z)
         button(data-criteria='alpha-dsc') Nom (Z-A)
@@ -21,7 +21,14 @@ block content
     span#products-count.right-header 13 produits
     h1= titre
     #products-list.products
-      data = data
-      .loading
+      each val in data
+        .product
+          a(href="./produits/"+val.id title="En savoir plus...")
+            h2=val.name
+            img(alt="product" src="./assets/img/"+val.image)
+            p.price 
+              small Prix 
+              .price= val.price
+      
 block scripts
   script(type='text/javascript', src='assets/scripts/products.controller.js')

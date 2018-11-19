@@ -130,11 +130,13 @@ router.get("/produits", (req,res)=>{
 
 router.get("/panier", (req,res)=>{
 	menuActif="Panier"
-	let cart = req.session.shopping_cart; 
+	if(!req.session.shopping_cart){
+		req.session.shopping_cart=[];
+	} 
 	res.render("panier", {
 		title: "Panier",
 		titre: "Panier",
-		panier: cart
+		panier: req.session.shopping_cart
 	});
 });
 

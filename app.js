@@ -11,7 +11,7 @@ require("./lib/db");
 const index = require("./routes/index");
 const produits = require("./routes/produits");
 const orders = require("./routes/commande");
-const panier = require("./routes/panierAchat");
+const panier = require("./routes/panier");
 
 
 const app = express();

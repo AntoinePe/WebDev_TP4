@@ -130,7 +130,7 @@ router.get("/produits", (req,res)=>{
 
 router.get("/panier", (req,res)=>{
 	menuActif="Panier"
-	if(!req.session.shopping_cart){
+	if(req.session.shopping_cart==undefined){
 		req.session.shopping_cart=[];
 	} 
 	res.render("panier", {

@@ -4,57 +4,46 @@ const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 
 router.get("/api/shopping-cart", (req, res) => {
-	let panier = req.session.shopping_cart;
-	if (!panier) {
+	if (!req.session.shopping_cart){
 		req.session.shopping_cart = [];	
 	}
 	res.status(200);
 	res.send(req.session.shopping_cart);
-
-	});
+});
 
 router.get("/api/shopping-cart/:productId", (req, res) => {
-
-	let panier = req.session.shopping_cart;
-	let produitDemande;
-	let trouve = false;
-	if (typeof(panier) == undefined) {
+	if (!req.session.shopping_cart) {
 		res.sendStatus(404) ;	
 	}
-	panier.forEach(function(produit) {
-
-		if (produit.id == productId) {
-			produitDemande = produit ;
-			trouve = true;
+	req.session.shopping_cart.forEach(function(produit) {
+		if (produit.id == req.params.productId) {
+			res.status(200);
+			res.send(produit);
 		}
 	});
-	if (trouve) {
-		res.status(200).send(produitDemande);
-	}
-	else {
-		res.sendStatus(404) ;
-	}
+	res.sendStatus(404);
 });
 
 router.post("/api/shopping-cart", (req, res) => {
 	let panier = req.session.shopping_cart;
-	let quantite = req.body.quantite;
-	let productId = req.body.productId
-	if (typeof(panier) == undefined) {
-		panier = []
+	let quantite = req.body.quantity;
+	let productId = req.body.productId;
+	if (!req.session.shopping_cart) {
+		req.session.shopping_cart=[];
 	}
 	Product.findOne({"id" : req.body.productId}, function (err, produit){
+		//Si l'identifiant spécifié n'existe pas ou si la quantite est invalide, on renvoie un code 400
 		if (err || typeof(produit) == undefined || quantite < 1) {
 			res.sendStatus(400);
 		}
 		else {
-			panier.forEach(function(prod){
+			req.session.shopping_cart.forEach(function(prod){
 				if (prod.productId == productId) {
+					//Si le produit a deja été ajouté au panier, on renvoie aussi un code 400
 					res.sendStatus(400);
 				}
 			});
-			panier.push({"productId" : productId, "quantity" : quantite});
-			req.session.shopping_cart = panier;
+			req.session.shopping_cart.push({"productId": productId, "quantity": quantite});
 			res.status(201);
 		}
 	});

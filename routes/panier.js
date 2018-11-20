@@ -25,31 +25,32 @@ router.get("/api/shopping-cart/:productId", (req, res) => {
 });
 
 router.post("/api/shopping-cart", (req, res) => {
-	let panier = req.session.shopping_cart;
 	let quantite = req.body.quantity;
-	let productId = req.body.productId;
+	let id = req.body.productId;
 	if (!req.session.shopping_cart) {
 		req.session.shopping_cart=[];
 	}
-	Product.findOne({"id" : req.body.productId}, function (err, produit){
+	Product.findOne({"id" : id}, function (err, produit){
 		//Si l'identifiant spécifié n'existe pas ou si la quantite est invalide, on renvoie un code 400
-		if (err || typeof(produit) == undefined || quantite < 1) {
+		if (err || !(produit) || typeof(quantite) != Number) {
 			res.sendStatus(400);
 		}
-		else {
+		else if(quantite < 1){
+			res.sendStatus(400);
+		}else{
 			req.session.shopping_cart.forEach(function(prod){
-				if (prod.productId == productId) {
+				if (prod.productId == id) {
 					//Si le produit a deja été ajouté au panier, on renvoie aussi un code 400
 					res.sendStatus(400);
 				}
 			});
-			req.session.shopping_cart.push({"productId": productId, "quantity": quantite});
-			res.status(201);
+			req.session.shopping_cart.push({"productId": id, "quantity": quantite});
+			res.sendStatus(201);
 		}
 	});
 });
 
-router.put("/api/shopping-cart/:id", (req, res) => {
+router.put("/api/shopping-cart/:productId", (req, res) => {
 
 	let panier = req.session.shopping_cart;
 	let quantite = res.body.quantite;
@@ -62,7 +63,7 @@ router.put("/api/shopping-cart/:id", (req, res) => {
 		res.sendStatus(400);
 	}
 	panier.forEach(function(produit) {
-		if (produit.productId == id){
+		if (produit.productId == req.params.productId){
 			trouve = true;
 			produit.quantite = quantite;
 		}
@@ -76,21 +77,20 @@ router.put("/api/shopping-cart/:id", (req, res) => {
 	}
 });
 
-router.delete("/api/shopping-cart", (req, res) => {
+router.delete("/api/shopping-cart/:id", (req, res) => {
 
-	let panier = req.session.shopping_cart;
 	let trouve = false;
 	let indice;
-	for (let i = 0; i < panier.length; i++){
+	for (let i = 0; i < req.session.shopping_cart.length; i++){
 
-		if (panier[i].productId == id){
+		if (req.session.shopping_cart[i].productId == req.params.id){
 			trouve = true;
 			indice = i;
 		}
 
 	}
 	if (trouve) {
-		panier.splice(indice, 1);
+		req.session.shopping_cart.splice(indice, 1);
 		res.sendStatus(204);
 	}
 	else {

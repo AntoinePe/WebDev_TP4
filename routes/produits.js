@@ -96,7 +96,6 @@ router.post("/api/products", (req, res) => {
 			isValid=false;
 		}
 	});
-
 	if(isValid){
 		let produit = new Product({
 			id: req.body.id,
@@ -107,11 +106,11 @@ router.post("/api/products", (req, res) => {
 			description: req.body.description,
 			features: req.body.features
 		});
-		produit.save(function(err) {
-			if (err)
-				throw err;
+		produit.save().then(doc=>{
+			console.log(doc);
+			res.send(201);
 		});
-		res.sendStatus(201);
+		
 	}else{
 		res.sendStatus(400);
 	}
@@ -119,11 +118,11 @@ router.post("/api/products", (req, res) => {
 
 router.delete("/api/products/:id", (req, res) => {
 	Product.findOne({"id" : req.params.id}, function(err, product) {
-		if (product == null) {
+		if (!product) {
 			res.sendStatus(404);
 		}
 		else{
-			product.remove(function(err) {
+			Product.remove({"id": product.id},function(err) {
 				if(err){
 					console.log("Erreur lors de la suppression d'un produit.");
 				}
@@ -135,18 +134,6 @@ router.delete("/api/products/:id", (req, res) => {
 });
 
 router.delete("/api/products", (req, res) => {
-/*
-	Product.find({}, function(err, product) {
-		if(product!=null){
-			product.remove(function(err) {
-				if(err){
-					console.log("Erreur lors de la suppresion des produits.");
-				}
-			});
-		};
-	});
-	res.sendStatus(204);
-*/
 	Product.remove({},function(err){
 		if(err)
 			throw err;

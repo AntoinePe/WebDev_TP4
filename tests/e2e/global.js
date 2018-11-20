@@ -4,7 +4,7 @@ module.exports = {
     var productsList = require("./data/products.json");
 
     // Deletes all the products in the database.
-    request.delete("http://localhost:8000/api/products", function(err, response) {
+    request.delete("mongodb://Antoine644:LOG4420@ds155313.mlab.com:55313/online-shop_tp4", function(err, response) {
       if (!err && response.statusCode === 204) {
         productsList.forEach(function(product, i) {
           // Creates a new product in the database.

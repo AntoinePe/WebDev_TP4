@@ -74,11 +74,11 @@ router.post("/api/order", (req, res) => {
 	});
 
 	let order = Order({  id: req.body.id,
-  firstName: req.body.firstName,
-  lastName: req.body.lastName,
-  email: req.body.email,
-  phone: req.body.phone,
-  products: req.body.products});
+  firstName: req.body.order.firstName,
+  lastName: req.body.order.lastName,
+  email: req.body.order.email,
+  phone: req.body.order.phone,
+  products: req.body.order.products});
   order.save(function(err) {
 
   	if (err) throw err;
@@ -107,12 +107,15 @@ router.delete("/api/order/:id", (req, res) => {
 
 router.delete("/api/order", (req, res) => {
 
-	Order.find({}, function(err, order) {
+	Order.remove({}, function(err) {
 
-		order.remove(function(err) {}) ;
-
-	});
-	res.sendStatus(204);	
+		if(err) {
+			throw err;
+		}
+		else {
+			res.sendStatus(204);	
+		}
+	});	
 });
 
 module.exports = router;
